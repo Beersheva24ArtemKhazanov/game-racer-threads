@@ -1,7 +1,5 @@
 package telran.multithreading;
 
-import java.util.Random;
-
 public class Racer extends Thread {
     private Race race;
     private int number;
