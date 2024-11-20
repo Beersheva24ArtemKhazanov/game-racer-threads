@@ -23,7 +23,7 @@ public class Racer extends Thread {
     private void stepForwardAndWait() {
         position++;
         try {
-            sleep(new Random().nextInt(race.getSleepTimeOut()));
+            sleep(race.getSleepTimeOut());
         } catch (InterruptedException e) {
         }
     }
