@@ -22,7 +22,7 @@ public class Racer extends Thread {
     }
 
     @Override
-    public synchronized void run() {
+    public void run() {
         int minSleep = race.getMinSleep();
         int maxSleep = race.getMaxSleep();
         int distance = race.getDistance();
@@ -34,6 +34,7 @@ public class Racer extends Thread {
             } catch (InterruptedException e) {
             }
         }
+        race.winner.compareAndSet(-1, number);
         finishTime = LocalDateTime.now();
     }
 }

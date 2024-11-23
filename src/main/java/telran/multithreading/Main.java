@@ -15,7 +15,6 @@ public class Main {
   private static final int MAX_DISTANCE = 3500;
   private static final int MIN_SLEEP = 2;
   private static final int MAX_SLEEP = 5;
-  private static LocalDateTime startTime;
 
   public static void main(String[] args) {
 
@@ -43,10 +42,10 @@ public class Main {
     Racer[] racers = new Racer[nThreads];
     startRacers(racers, race);
     joinRacers(racers);
-    printTableOfResults(racers);
+    printTableOfResults(race, racers);
   }
 
-  private static void printTableOfResults(Racer[] racers) {
+  private static void printTableOfResults(Race race, Racer[] racers) {
     Arrays.sort(racers, Comparator.comparing(Racer::getFinishTime));
     System.out.println("----------------------------");
     System.out.println("|  #  | Number | Race time |");
@@ -54,8 +53,9 @@ public class Main {
     IntStream.range(0, racers.length)
         .forEach(i -> System.out.printf("| %3d | %6d | %6d ms |\n",
             i + 1, racers[i].getNumber(),
-            ChronoUnit.MILLIS.between(startTime, racers[i].getFinishTime())));
+            ChronoUnit.MILLIS.between(race.getStartTime(), racers[i].getFinishTime())));
     System.out.println("----------------------------");
+    System.out.println("Congratulations to Racer " + race.getWinner());
   }
 
   private static void joinRacers(Racer[] racers) {
@@ -70,12 +70,10 @@ public class Main {
   }
 
   private static void startRacers(Racer[] racers, Race race) {
-    startTime = LocalDateTime.now();
+    race.setStartTime(LocalDateTime.now());
     for (int i = 0; i < racers.length; i++) {
       racers[i] = new Racer(race, i + 1);
       racers[i].start();
     }
-
   }
-
 }
