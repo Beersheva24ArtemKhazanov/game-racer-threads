@@ -4,6 +4,7 @@ import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.Arrays;
 import java.util.Comparator;
+import java.util.LinkedList;
 import java.util.stream.IntStream;
 
 import telran.view.*;
@@ -46,14 +47,15 @@ public class Main {
   }
 
   private static void printTableOfResults(Race race, Racer[] racers) {
-    Arrays.sort(racers, Comparator.comparing(Racer::getFinishTime));
+    // Arrays.sort(racers, Comparator.comparing(Racer::getFinishTime));
+    LinkedList<Racer> list = race.getFinishList();
     System.out.println("----------------------------");
     System.out.println("|  #  | Number | Race time |");
     System.out.println("----------------------------");
-    IntStream.range(0, racers.length)
+    IntStream.range(0, list.size())
         .forEach(i -> System.out.printf("| %3d | %6d | %6d ms |\n",
-            i + 1, racers[i].getNumber(),
-            ChronoUnit.MILLIS.between(race.getStartTime(), racers[i].getFinishTime())));
+            i + 1, list.get(i).getNumber(),
+            ChronoUnit.MILLIS.between(race.getStartTime(), list.get(i).getFinishTime())));
     System.out.println("----------------------------");
     System.out.println("Congratulations to Racer " + race.getWinner());
   }

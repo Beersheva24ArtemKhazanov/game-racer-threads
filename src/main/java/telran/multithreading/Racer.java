@@ -34,7 +34,10 @@ public class Racer extends Thread {
             } catch (InterruptedException e) {
             }
         }
-        race.winner.compareAndSet(-1, number);
-        finishTime = LocalDateTime.now();
+        synchronized (race) {
+            race.winner.compareAndSet(-1, number);
+            race.addToFinishList(this);
+            finishTime = LocalDateTime.now();
+        }
     }
 }
